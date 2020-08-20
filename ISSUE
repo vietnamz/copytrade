@@ -1,0 +1,14 @@
+
+## Issue.
+* spend a lot of time to resolve the issue related to. lesson leart is really careful with dependency. Need to learn more about this area.
+
+```bash
+go: found github.com/Sirupsen/logrus in github.com/Sirupsen/logrus v1.6.0
+go: github.com/docker/docker/pkg/term imports
+        github.com/docker/docker/pkg/term/windows imports
+        github.com/Sirupsen/logrus: github.com/Sirupsen/logrus@v1.6.0: parsing go.mod:
+        module declares its path as: github.com/sirupsen/logrus
+                but was required as: github.com/Sirupsen/logrus
+```
+
+https://github.com/sensu/sensu-go/issues/1261

@@ -1,0 +1,26 @@
+FROM ubuntu:18.04
+
+# number of concurrent threads during build
+# usage: docker build --build-arg PARALLELISM=8 -t name/name .
+ARG PARALLELISM=1
+
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install apt-utils git ssh tar gzip ca-certificates gnupg curl unzip vim zip pkg-config; \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV TF_DEV=true
+
+# golang stuff
+RUN curl https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz | tar -C /opt -xz
+ENV GOPATH=/opt/gopath
+RUN mkdir ${GOPATH}
+ENV PATH=${PATH}:/opt/go/bin:${GOPATH}/bin
+
+
+ADD . /opt/app
+WORKDIR /opt/app
+
+RUN ./scripts/build.sh
+
+CMD ["/bin/bash"]
