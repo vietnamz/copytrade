@@ -1,3 +1,0 @@
-# sudoers file to let build and test machines sudo anything without password
-
-ubuntu      ALL = NOPASSWD: ALL
