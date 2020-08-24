@@ -44,3 +44,9 @@ pnpm-debug.log*
 *.sw?
 bin
 pkg
+
+#python
+
+*venv*
+
+*__pycache__*
