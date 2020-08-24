@@ -1,0 +1,3 @@
+[submodule "cli-common"]
+	path = cli-common
+	url = https://github.com/vietnamz/cli-common
