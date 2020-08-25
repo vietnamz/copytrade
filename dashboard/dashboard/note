@@ -1,7 +1,0 @@
-mysql -h 127.0.0.1 -uroot -pcrickets
-create database copytrade;
-CREATE USER 'cricket'@'localhost' IDENTIFIED BY 'cricket';
-GRANT ALL PRIVILEGES ON * . * TO 'cricket'@'localhost';
-
-
-
