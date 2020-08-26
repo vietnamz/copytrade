@@ -1,3 +1,6 @@
 [submodule "cli-common"]
 	path = cli-common
 	url = https://github.com/vietnamz/cli-common
+[submodule "copytrade-dashboard"]
+	path = copytrade-dashboard
+	url = https://github.com/vietnamz/copytrade-dashboard
