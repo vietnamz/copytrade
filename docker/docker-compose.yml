@@ -1,40 +1,71 @@
 version: '3'
 
 services:
-  primeapp:
-    image: delgemoon/primeapp-be:develop-build
-    build:
+  consul:
+    image: copytrade_consul:dev
+    restart: always
+    build: 
       context: ./
-      dockerfile: Dockerfile.backend
-    ports:
-      - "5001:8080"
+      dockerfile: Dockerfile.consul
+    #command: ["consul", "agent", "-server", "-ui", "-data-dir=/consul/data", "-config-dir=/consul/config"]
+    ports: 
+      - "8500:8500"
+  mysql:
+    image: copytrade_mysql:dev
+    build: 
+      context: ./
+      dockerfile: Dockerfile.mysql
+    restart: always
     environment:
-      - TF_DEV=true
-    # export G_ID=$(id -g $(whoami))
-    # export U_ID=$(id -g $(whoami))
-    user: ${U_ID:-0}:${G_ID:-0}
-    tty: true
-    working_dir: /opt/app
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - seccomp:unconfined
-    command: ["./bin/prime"]
-  ui:
-    image: delgemoon/prime-fe:develop-build
-    build:
+      MYSQL_ROOT_PASSWORD: copytrade
+      MYSQL_USER: copytrade
+      MYSQL_PASSWORD: copytrade
+    ports: 
+      - "3306:3306"
+  rabbitmq:
+    image: copytrade_mq:dev
+    build: 
       context: ./
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "5000:8080"
-    # export G_ID=$(id -g $(whoami))
-    # export U_ID=$(id -g $(whoami))
-    user: ${U_ID:-0}:${G_ID:-0}
-    tty: true
-    working_dir: /opt/app
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - seccomp:unconfined
-    command: ["http-server", "dist"]
+      dockerfile: Dockerfile.rabbitmq
+    ports: 
+      - "15672:15672"
+      - "15671:15671"
+      - "5671:5671"
+      - "5672:5672"
+  # primeapp:
+  #   image: delgemoon/primeapp-be:develop-build
+  #   build:
+  #     context: ./
+  #     dockerfile: Dockerfile.backend
+  #   ports:
+  #     - "5001:8080"
+  #   environment:
+  #     - TF_DEV=true
+  #   # export G_ID=$(id -g $(whoami))
+  #   # export U_ID=$(id -g $(whoami))
+  #   user: ${U_ID:-0}:${G_ID:-0}
+  #   tty: true
+  #   working_dir: /opt/app
+  #   cap_add:
+  #     - SYS_PTRACE
+  #   security_opt:
+  #     - seccomp:unconfined
+  #   command: ["./bin/prime"]
+  # ui:
+  #   image: delgemoon/prime-fe:develop-build
+  #   build:
+  #     context: ./
+  #     dockerfile: Dockerfile.frontend
+  #   ports:
+  #     - "5000:8080"
+  #   # export G_ID=$(id -g $(whoami))
+  #   # export U_ID=$(id -g $(whoami))
+  #   user: ${U_ID:-0}:${G_ID:-0}
+  #   tty: true
+  #   working_dir: /opt/app
+  #   cap_add:
+  #     - SYS_PTRACE
+  #   security_opt:
+  #     - seccomp:unconfined
+  #   command: ["http-server", "dist"]
 
