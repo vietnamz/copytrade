@@ -1,2 +1,10 @@
 {
+    "datacenter": "zone-1",
+    "leave_on_terminate": true,
+    "log_level": "INFO",
+    "rejoin_after_leave": true,
+    "ui" : true,
+    "client_addr" : "0.0.0.0",
+    "data_dir": "/opt/consul",
+    "enable_local_script_checks": true
 }

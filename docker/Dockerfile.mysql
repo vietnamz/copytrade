@@ -1,31 +1,30 @@
 FROM mysql:5.7
 
-RUN apt-get update; apt-get upgrade -y; \
-    apt-get install -y curl unzip
+# RUN apt-get update; apt-get upgrade -y; \
+#     apt-get install -y curl unzip iputils-ping vim
 
-WORKDIR  /opt/mysql
+# WORKDIR  /opt/mysql
 
 
-ENV CONSUL_VERSION="1.8.0"
-ENV CONSUL_URL="https://releases.hashicorp.com/consul" 
+# ENV CONSUL_VERSION="1.8.0"
+# ENV CONSUL_URL="https://releases.hashicorp.com/consul" 
 # Download consul agent.
-RUN curl --silent --remote-name \
-    ${CONSUL_URL}/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
+# RUN curl --silent --remote-name \
+#     ${CONSUL_URL}/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
 
-RUN unzip consul_${CONSUL_VERSION}_linux_amd64.zip; \
-    chown root:root /opt/mysql/consul; \
-    mv /opt/mysql/consul /usr/local/bin/ 
+# RUN unzip consul_${CONSUL_VERSION}_linux_amd64.zip; \
+#     chown root:root /opt/mysql/consul; \
+#     mv /opt/mysql/consul /usr/local/bin/ 
 # check consul
-RUN consul --version 
+#RUN consul --version 
 
-RUN consul -autocomplete-install
+#RUN mkdir --parents /opt/consul
 
-RUN /bin/bash -c 'complete -C /usr/local/bin/consul consul'
+#RUN mkdir --parents /etc/consul.d
 
-RUN mkdir --parents /opt/consul
+#COPY client.json consul.json mysql.json /etc/consul.d/
+#COPY mysql_consul.sh .
+#ENTRYPOINT [ "./mysql_consul.sh" ]
+#consul agent -config-dir=/etc/consul.d --enable-local-script-checks
 
-RUN mkdir --parents /etc/consul.d
-
-COPY client.json consul.json /etc/consul.d/
-COPY mysql_consul.sh .
-ENTRYPOINT [ "./mysql_consul.sh" ]
+#ENTRYPOINT [ "consul", "agent", "-config-dir=/etc/consul.d",  "--enable-local-script-checks" ]

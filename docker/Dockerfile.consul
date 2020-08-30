@@ -1,3 +1,7 @@
 FROM consul
 
-#COPY consul.json server.json /consul/config/
+
+#RUN apt-get update; apt-get upgrade -y ; apt-get install telnet
+RUN apk update; apk upgrade; apk add mysql-client busybox-extras 
+
+COPY consul.json server.json mysql.json /consul/config/

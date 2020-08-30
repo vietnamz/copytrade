@@ -1,0 +1,17 @@
+{
+    "services": [
+        {
+            "id": "mysql:127.0.0.1",
+            "name": "mysql",
+            "address": "127.0.0.1",
+            "tags": ["mysql"],
+            "port": 3600,
+            "check": {
+                "id": "mysqlcheck",
+                "name": "checking mysql heathy",
+                "args": ["/usr/bin/mysqladmin", "ping", "--host=mysql", "--user=copytrade", "--password=copytrade"],
+                "interval": "5s"
+            }
+        }
+    ]
+}
