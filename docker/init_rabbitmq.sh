@@ -1,6 +1,11 @@
 #!/bin/bash
 
+set -e
 echo $BUILD
+
+VHOST=copytrade
+ADMIN_USER=copytrade
+ADMIN_PASS=copytrade
 
 if [ ! -z $BUILD ]; then 
     HOST_ADDRESS="consul"

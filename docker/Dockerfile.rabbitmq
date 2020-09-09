@@ -12,7 +12,7 @@ RUN apt-get update; apt-get upgrade -y; \
     apt-get install curl -y 
 
 # execute the custom script.
-ADD init_rabbitmq.sh /etc/rabbitmq
+ADD docker/init_rabbitmq.sh /etc/rabbitmq
 RUN bash -c '/etc/rabbitmq/init_rabbitmq.sh'
 
 
