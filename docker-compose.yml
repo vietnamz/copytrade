@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  consul:
+    container_name: consul
+    image: copytrade_consul:dev
+    restart: always
+    build: 
+      context: ./
+      dockerfile: docker/Dockerfile.consul
+    ports: 
+      - "8500:8500"
+  mysql:
+    container_name: mysql
+    image: copytrade_mysql:dev
+    build: 
+      context: ./
+      dockerfile: docker/Dockerfile.mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: copytrade
+      MYSQL_USER: copytrade
+      MYSQL_PASSWORD: copytrade
+      MYSQL_DATABASE: copytrade
+    ports: 
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  memcached:
+    container_name: memcached
+    image: memcached
+    ports:
+        - "11211:11211"
+  rabbitmq:
+    container_name: rabbitmq
+    image: copytrade_mq:dev
+    build: 
+      context: ./
+      dockerfile: docker/Dockerfile.rabbitmq
+    ports: 
+      - "15672:15672"
+      - "15671:15671"
+      - "5671:5671"
+      - "5672:5672"
+    environment: 
+      RABBITMQ_DEFAULT_VHOST: copytrade
+      RABBITMQ_DEFAULT_USER: copytrade
+      RABBITMQ_DEFAULT_PASS: copytrade
+  nginx:
+    build: 
+      context: ./
+      dockerfile: docker/Dockerfile.nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
+  web:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.web
+    command: gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    environment: 
+      DJANGO_SETTINGS_MODULE: dashboard.settings_prod
+    env_file:
+      - ./docker/env.prod
+    depends_on:
+      - mysql
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
+volumes:
+  mysql_data:
+  static_volume:
+  media_volume:
+
