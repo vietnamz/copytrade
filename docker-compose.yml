@@ -67,7 +67,7 @@ services:
     environment: 
       DJANGO_SETTINGS_MODULE: dashboard.settings_prod
     env_file:
-      - ./docker/env.prod
+      - ./docker/.env.prod
     depends_on:
       - mysql
     volumes:
