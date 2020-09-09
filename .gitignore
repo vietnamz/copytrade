@@ -50,3 +50,5 @@ pkg
 *venv*
 
 *__pycache__*
+
+docker/.env.prod
