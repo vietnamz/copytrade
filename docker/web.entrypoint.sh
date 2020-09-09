@@ -18,7 +18,7 @@ echo $DJANGO_SETTINGS_MODULE
 python manage.py flush --no-input
 python manage.py makemigrations home
 python manage.py migrate
-python manage.py collectstatic
+python manage.py collectstatic --no-input
 
 exec "$@"
 
